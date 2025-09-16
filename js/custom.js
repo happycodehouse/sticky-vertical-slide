@@ -7,6 +7,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 custom.utils = {
     smoothScroll: () => {
+        let lenisRAF;
+
         function breakPoint(mediaQuery) {
             if (mediaQuery.matches) {
                 if (!lenis) {
@@ -15,11 +17,28 @@ custom.utils = {
                     });
 
                     lenis.on("scroll", ScrollTrigger.update);
-                    gsap.ticker.add(function (time) {
-                        lenis.raf(time * 1000);
-                    });
 
+                    lenisRAF = function (time) {
+                        if (lenis) { // lenis가 존재할 때만 호출
+                            lenis.raf(time * 1000);
+                        }
+                    };
+
+                    gsap.ticker.add(lenisRAF);
                     gsap.ticker.lagSmoothing(0);
+
+                    // 추가: 초기 resize 호출
+                    setTimeout(() => {
+                        lenis.resize();
+                    }, 100);
+                }
+            } else {
+                // 모바일에서 lenis 제거
+                if (lenis) {
+                    gsap.ticker.remove(lenisRAF);
+                    lenis.destroy();
+                    lenis = null;
+                    lenisRAF = null;
                 }
             }
         }
@@ -58,10 +77,16 @@ custom.utils = {
 
             if (_$this.hasClass("on")) {
                 _$this.removeClass("on");
-                _$list.stop().slideUp();
+                _$list.stop().slideUp(() => {
+                    // 애니메이션 완료 후 resize
+                    if (lenis) lenis.resize();
+                });
             } else {
                 _$this.addClass("on");
-                _$list.stop().slideDown();
+                _$list.stop().slideDown(() => {
+                    // 애니메이션 완료 후 resize
+                    if (lenis) lenis.resize();
+                });
             }
         }
 
@@ -70,7 +95,7 @@ custom.utils = {
             const $productTabBtn = $secIntro.find(".product_tab a");
             let initColor = $productTabBtn.filter(".active").data("product-tab");
             let productColor = initColor;
-            console.log(productColor);
+            // console.log(productColor);
 
             const secIntroSwiper = new Swiper($secIntro.find(".swiper"), {
                 slidesPerView: "auto",
@@ -83,7 +108,6 @@ custom.utils = {
 
             let $productSlides = $(secIntroSwiper.slides);
             let $productSlidesImg = $productSlides.find("img");
-            console.log($productSlidesImg);
 
             function setProductColor(color) {
                 $productSlidesImg.each(function () {
@@ -111,37 +135,34 @@ custom.utils = {
         })();
 
         (function visualSection() {
-            let secVisualTl;
+            let secVisualTl, swiper;
             const $secVisual = $(".sec_visual");
             const $trigger = $secVisual.find(".trigger");
             const $secVisualDesc = $secVisual.find(".desc");
             const $secVisualBgCover = $secVisual.find(".bg_cover");
-
-            $secVisualDesc.eq(0).addClass("on");
-            $secVisualBgCover.eq(0).addClass("on");
 
             function secVisualMotion(idx) {
                 let prevIdx = 0;
 
                 return {
                     onStart: () => {
-                        console.log('Current Index:', idx);
+                        // console.log('Current Index:', idx);
 
                         $secVisualDesc.removeClass("on");
                         $secVisualBgCover.removeClass("on");
-
                         $secVisualDesc.eq(idx).addClass("on");
                         $secVisualBgCover.eq(idx).addClass("on prev");
+
                         if (idx === 0) {
                             prevIdx = 0;
                         } else {
                             prevIdx = idx - 1;
                         }
-                        console.log('Previous Index:', prevIdx);
+                        // console.log('Previous Index:', prevIdx);
                     },
                     onReverseComplete: () => {
-                        console.log("reverse current ", idx);
-                        console.log("reverse prevIdx ", prevIdx);
+                        // console.log("reverse current ", idx);
+                        // console.log("reverse prevIdx ", prevIdx);
                         $secVisualDesc.removeClass("on");
                         $secVisualDesc.eq(prevIdx).addClass("on");
                         $secVisualBgCover.eq(prevIdx).addClass("on");
@@ -156,21 +177,59 @@ custom.utils = {
                 }
             }
 
-            secVisualTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: $secVisual,
-                    start: "top top",
-                    end: "bottom bottom",
-                    markers: false,
-                    scrub: 1,
-                    invalidateOnRefresh: true
+            // PC - ScrollTrigger
+            ScrollTrigger.matchMedia({
+                "(min-width: 1025px)": function () {
+                    secVisualTl = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: $secVisual,
+                            start: "top top",
+                            end: "bottom bottom",
+                            markers: false,
+                            scrub: 1,
+                            invalidateOnRefresh: true
+                        }
+                    })
+                        .to($trigger, {y: 100, duration: 0.5})
+                        .to($secVisualDesc.eq(0), secVisualMotion(0))
+                        .to($secVisualDesc.eq(1), secVisualMotion(1))
+                        .to($secVisualDesc.eq(2), secVisualMotion(2))
+                        .to($secVisualDesc.eq(3), secVisualMotion(3));
                 }
-            })
-                .to($trigger, {y: 100, duration: 0.5})
-                .to($secVisualDesc.eq(0), secVisualMotion(0))
-                .to($secVisualDesc.eq(1), secVisualMotion(1))
-                .to($secVisualDesc.eq(2), secVisualMotion(2))
-                .to($secVisualDesc.eq(3), secVisualMotion(3));
+            });
+
+            // MO - Swiper
+            function secVisualSwiper(mediaQuery) {
+                if (!mediaQuery.matches) {
+                    $secVisualDesc.removeClass("on");
+                    $secVisualBgCover.removeClass("on");
+
+                    if (!swiper) {
+                        swiper = new Swiper(".swiper.desc_box", {
+                            slidesPerView: 1,
+                            loop: true,
+                            effect: 'fade',
+                            fadeEffect: {
+                                crossFade: true
+                            },
+                            pagination: {
+                                el: ".swiper.desc_box .swiper-pagination"
+                            }
+                        });
+                    }
+                } else {
+                    $secVisualDesc.eq(0).addClass("on");
+                    $secVisualBgCover.eq(0).addClass("on");
+
+                    if (swiper) {
+                        swiper.destroy(true, true);
+                        swiper = null;
+                    }
+                }
+            }
+
+            secVisualSwiper(mediaQuery);
+            mediaQuery.addEventListener("change", secVisualSwiper);
         })();
 
         (function chargeSection() {
@@ -229,18 +288,23 @@ custom.utils = {
             const $secHorizontalScroll = $(".sec_horizontal_scroll");
             const $scroll = $secHorizontalScroll.find(".scroll");
 
-            secHorizontalScrollTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: $secHorizontalScroll,
-                    start: "top top",
-                    end: "bottom bottom",
-                    scrub: 1,
-                    invalidateOnRefresh: true
+            ScrollTrigger.matchMedia({
+                // PC
+                "(min-width: 1025px)": function () {
+                    secHorizontalScrollTl = gsap.timeline({
+                        scrollTrigger: {
+                            trigger: $secHorizontalScroll,
+                            start: "top top",
+                            end: "bottom bottom",
+                            scrub: 1,
+                            invalidateOnRefresh: true
+                        }
+                    }).to($scroll, {
+                        left: "-33%",
+                        duration: 1,
+                        ease: "none"
+                    });
                 }
-            }).to($scroll, {
-                left: "-33%",
-                duration: 1,
-                ease: "none"
             });
         })();
 
@@ -260,12 +324,27 @@ custom.utils = {
         custom.utils.smoothScroll();
         custom.utils.dataMotion();
         custom.utils.verticalMotion();
+
+        // 모든 초기화 완료 후 ScrollTrigger refresh
+        setTimeout(() => {
+            ScrollTrigger.refresh();
+            if (lenis) {
+                lenis.resize();
+            }
+        }, 300);
     }
 }
 
 $(window).on('load resize', function () {
     windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-    isTouchDevice = (getComputedStyle(document.documentElement).getPropertyValue("--pointer")) == "coarse";
+    isTouchDevice = (getComputedStyle(document.documentElement).getPropertyValue("--pointer")) === "coarse";
+
+    // Lenis resize 호출
+    if (lenis && mediaQuery.matches) {
+        setTimeout(() => {
+            lenis.resize();
+        }, 100);
+    }
 });
 
 custom.utils.init();

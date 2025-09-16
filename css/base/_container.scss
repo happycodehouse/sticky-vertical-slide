@@ -145,7 +145,7 @@ html {
     }
 
     @include media(false, mobile) {
-        padding: 0 to_vw(20);
+        padding: 0 to_vw(12);
     }
 }
 
