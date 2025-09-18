@@ -141,10 +141,6 @@ html {
     padding: 0 to_vw(80);
 
     @include media(false, tablet) {
-        padding: 0 to_vw(40);
-    }
-
-    @include media(false, mobile) {
         padding: 0 to_vw(12);
     }
 }
