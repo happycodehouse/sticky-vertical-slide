@@ -16,7 +16,7 @@ $mo-side-padding: to_vw(12);
 
 @supports (height: 100vh) {
     :root {
-        --full-height: 100svh;
+        --full-height: 100 svh;
     }
 }
 
@@ -32,6 +32,34 @@ $mo-side-padding: to_vw(12);
 
 section {
     background-color: $white;
+}
+
+.container_title {
+    position: fixed;
+    top: to_vw(20);
+    right: to_vw(20);
+    z-index: 999;
+    text-align: right;
+
+    span {
+        display: block;
+        margin-bottom: to_vw(4);
+        @include fontSize(12);
+    }
+
+    a {
+        @include fontSize(12);
+        font-weight: 500;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    @include media(false, tablet) {
+        top: to_vw(12);
+        right: to_vw(12);
+    }
 }
 
 .sec {
@@ -196,6 +224,7 @@ section {
 
                 .swiper-navigation {
                     width: calc(100% - #{to_vw(24)});
+
                     a {
                         width: to_vw(20);
                         height: to_vw(20);
