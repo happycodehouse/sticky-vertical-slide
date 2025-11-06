@@ -1,5 +1,11 @@
 # 🏍️ P1 Electric Vehicle - Interactive Landing Page
+
 > A scroll-based interactive product showcase prototype
+
+![Preview Image]
+<p align="left">
+<img src="./images/preview.png" alt="Preview Image" width="800">
+</p>
 [🔗 Live Demo]([https://your-demo-link.com](https://sticky-vertical-slide.netlify.app/))
 
 ---
