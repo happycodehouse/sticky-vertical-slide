@@ -16,7 +16,7 @@ $mo-side-padding: to_vw(12);
 
 @supports (height: 100vh) {
     :root {
-        --full-height: 100 svh;
+        --full-height: 100vh;
     }
 }
 
