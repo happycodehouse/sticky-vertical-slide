@@ -5,9 +5,11 @@
 <p align="left">
 <img src="./images/preview.png" alt="Preview Image" width="600">
 </p>
-[🔗 Live Demo][https://sticky-vertical-slide.netlify.app/]
+
+[🔗 Live Demo](https://sticky-vertical-slide.netlify.app/)
 
 ---
+
 ## 📋 Project Overview
 
 An interactive landing page designed to effectively showcase the features and performance of the P1 electric vehicle.  
@@ -40,28 +42,3 @@ Provides a natural visual experience that transitions smoothly as users scroll t
 
 ### 1. Responsive Smooth Scroll
 ```javascript
-// Lenis activated only on Desktop (1025px+)
-// Native scroll on Mobile for better performance
-```
-- Automatic scroll method switching by device
-- Conditional loading for performance optimization
-
-### 2. Sticky Section Transitions
-- 4 background images transitioning sequentially with scroll
-- Smooth fade effects synchronized with text content
-- Desktop: ScrollTrigger / Mobile: Swiper
-
-### 3. Horizontal Scroll Section
-- Browse 4 accessories with horizontal scroll
-- Desktop-only feature (standard layout on Mobile)
-
-### 4. Accordion Menu
-- Safety/Security information toggle
-- slideUp/Down animations synced with Lenis resize
-
----
-
-## 📝 Disclaimer
-
-This project is a portfolio piece inspired by [Infinite Machine](https://www.infinitemachine.com/).  
-All images and content are used for educational purposes and belong to their original owners.
