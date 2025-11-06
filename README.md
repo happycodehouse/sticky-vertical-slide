@@ -5,7 +5,7 @@
 <p align="left">
 <img src="./images/preview.png" alt="Preview Image" width="600">
 </p>
-[🔗 Live Demo]([https://your-demo-link.com](https://sticky-vertical-slide.netlify.app/))
+[🔗 Live Demo][https://sticky-vertical-slide.netlify.app/]
 
 ---
 ## 📋 Project Overview
