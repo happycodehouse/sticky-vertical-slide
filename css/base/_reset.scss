@@ -18,7 +18,9 @@
 :root {
     -webkit-tap-highlight-color: transparent;
     -webkit-text-size-adjust: 100%;
+    --page-padding: 1.5rem;
     text-size-adjust: 100%;
+    font-size: 12px;
     cursor: default;
     line-height: 1.2;
     overflow-wrap: break-word;
