@@ -10,35 +10,17 @@
 
 ---
 
-## 📋 Project Overview
+## Features
 
-An interactive landing page designed to effectively showcase the features and performance of the P1 electric vehicle.  
-Provides a natural visual experience that transitions smoothly as users scroll through the page.
+- **Smooth Scrolling**: Fluid scroll experience using Lenis library (Desktop only)
+- **Sticky Animations**: Section transitions powered by GSAP ScrollTrigger
+- **Product Color Switcher**: Real-time product image color changing
+- **Horizontal Scroll**: Modular accessory showcase section
+- **Responsive Design**: Optimized for both Desktop and Mobile
 
-### Key Features
-- ✨ **Smooth Scrolling**: Fluid scroll experience using Lenis library (Desktop only)
-- 🎬 **Sticky Animations**: Section transitions powered by GSAP ScrollTrigger
-- 🎨 **Product Color Switcher**: Real-time product image color changing
-- ↔️ **Horizontal Scroll**: Modular accessory showcase section
-- 📱 **Responsive Design**: Optimized for both Desktop and Mobile
+## Tech Stack
 
----
-
-## 🛠️ Tech Stack
-
-### Core
-- HTML5, CSS3, JavaScript (ES6+)
-- jQuery 3.4.1
-
-### Libraries
-- **GSAP 3.x** - Animation control
-- **ScrollTrigger** - Scroll-based interactions
-- **Lenis** - Smooth scroll
-- **Swiper 4.5.1** - Image slider
-
----
-
-## 💡 Key Implementation
-
-### 1. Responsive Smooth Scroll
-```javascript
+- JavaScript (ES6+)
+- GSAP (animations)
+- Lenis (smooth scroll)
+- Swiper (slider)
