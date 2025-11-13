@@ -20,7 +20,8 @@
 
 ## Tech Stack
 
-- JavaScript (ES6+)
-- GSAP (animations)
-- Lenis (smooth scroll)
-- Swiper (slider)
+- **GSAP** (animation)
+- **Swiper** (slider)
+- **Lenis** (smooth scroll)
+- **JavaScript (ES6+)**
+- **SCSS**
